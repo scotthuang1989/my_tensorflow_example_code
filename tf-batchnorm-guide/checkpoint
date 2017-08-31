@@ -1,0 +1,4 @@
+model_checkpoint_path: "save-9900"
+all_model_checkpoint_paths: "save-9700"
+all_model_checkpoint_paths: "save-9800"
+all_model_checkpoint_paths: "save-9900"
