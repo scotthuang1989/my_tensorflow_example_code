@@ -3,11 +3,6 @@
 This guide setup  a kubernets cluster and run [this example](https://github.com/tensorflow/ecosystem/tree/master/kubernetes) in a distribution fashion.
 
 ## Build docker image
-```shell
-cd ~/github
-git clone https://github.com/tensorflow/ecosystem.git
-cd ecosystem/docker
-```
 **
 before build the image, I made some modificationes:
 add a stop hook. so the training process will stop after 100000 steps.
@@ -26,6 +21,7 @@ with tf.train.MonitoredTrainingSession(
 ```
 build the image
 ```shell
+cd docker
 docker build -t your_docker_id/my_tf_dist_example:v10 -f Dockerfile .
 ```
 output
