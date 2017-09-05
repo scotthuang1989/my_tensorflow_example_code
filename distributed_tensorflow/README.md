@@ -3,12 +3,10 @@
 This guide setup  a kubernets cluster and run [this example](https://github.com/tensorflow/ecosystem/tree/master/kubernetes) in a distribution fashion.
 
 ## Build docker image
-**
 before build the image, I made some modificationes:
 add a stop hook. so the training process will stop after 100000 steps.
 I choose this step because, the running process will long enough to show the process and
 at the same time will not run forever.
-**
 ```python
 hooks=[tf.train.StopAtStepHook(last_step=100000)]
 with tf.train.MonitoredTrainingSession(
