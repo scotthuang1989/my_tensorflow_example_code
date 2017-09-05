@@ -1,0 +1,213 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mymnistdist-worker-0
+spec:
+  selector:
+    name: mymnistdist
+    job: worker
+    task: "0"
+  ports:
+  - port: 5000
+---
+kind: ReplicaSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: mymnistdist-worker-0
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mymnistdist
+        job: worker
+        task: "0"
+    spec:
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+           claimName: nfspvc
+
+      containers:
+      - name: tensorflow
+        image: ng7711/my_tf_dist_example:v10
+
+        ports:
+        - containerPort: 5000
+
+        command:
+        - "/usr/bin/python"
+        - "/mnist.py"
+        args:
+        - "--data_dir=/data"
+        - "--train_dir=/data/traindir"
+        - "--task_index=0"
+        - "--job_name=worker"
+        - "--worker_hosts=mymnistdist-worker-0:5000,mymnistdist-worker-1:5000,mymnistdist-worker-2:5000"
+        - "--ps_hosts=mymnistdist-ps-0:5000"
+
+        volumeMounts:
+        - mountPath: "/data"
+          name: nfs-storage
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mymnistdist-worker-1
+spec:
+  selector:
+    name: mymnistdist
+    job: worker
+    task: "1"
+  ports:
+  - port: 5000
+---
+kind: ReplicaSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: mymnistdist-worker-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mymnistdist
+        job: worker
+        task: "1"
+    spec:
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+           claimName: nfspvc
+
+      containers:
+      - name: tensorflow
+        image: ng7711/my_tf_dist_example:v10
+
+        ports:
+        - containerPort: 5000
+
+        command:
+        - "/usr/bin/python"
+        - "/mnist.py"
+        args:
+        - "--data_dir=/data"
+        - "--train_dir=/data/traindir"
+        - "--task_index=1"
+        - "--job_name=worker"
+        - "--worker_hosts=mymnistdist-worker-0:5000,mymnistdist-worker-1:5000,mymnistdist-worker-2:5000"
+        - "--ps_hosts=mymnistdist-ps-0:5000"
+
+        volumeMounts:
+        - mountPath: "/data"
+          name: nfs-storage
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mymnistdist-worker-2
+spec:
+  selector:
+    name: mymnistdist
+    job: worker
+    task: "2"
+  ports:
+  - port: 5000
+---
+kind: ReplicaSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: mymnistdist-worker-2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mymnistdist
+        job: worker
+        task: "2"
+    spec:
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+           claimName: nfspvc
+
+      containers:
+      - name: tensorflow
+        image: ng7711/my_tf_dist_example:v10
+
+        ports:
+        - containerPort: 5000
+
+        command:
+        - "/usr/bin/python"
+        - "/mnist.py"
+        args:
+        - "--data_dir=/data"
+        - "--train_dir=/data/traindir"
+        - "--task_index=2"
+        - "--job_name=worker"
+        - "--worker_hosts=mymnistdist-worker-0:5000,mymnistdist-worker-1:5000,mymnistdist-worker-2:5000"
+        - "--ps_hosts=mymnistdist-ps-0:5000"
+
+        volumeMounts:
+        - mountPath: "/data"
+          name: nfs-storage
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mymnistdist-ps-0
+spec:
+  selector:
+    name: mymnistdist
+    job: ps
+    task: "0"
+  ports:
+  - port: 5000
+---
+kind: ReplicaSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: mymnistdist-ps-0
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mymnistdist
+        job: ps
+        task: "0"
+    spec:
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+           claimName: nfspvc
+
+      containers:
+      - name: tensorflow
+        image: ng7711/my_tf_dist_example:v10
+
+        ports:
+        - containerPort: 5000
+
+        command:
+        - "/usr/bin/python"
+        - "/mnist.py"
+        args:
+        - "--data_dir=/data"
+        - "--train_dir=/data/traindir"
+        - "--task_index=0"
+        - "--job_name=ps"
+        - "--worker_hosts=mymnistdist-worker-0:5000,mymnistdist-worker-1:5000,mymnistdist-worker-2:5000"
+        - "--ps_hosts=mymnistdist-ps-0:5000"
+
+        volumeMounts:
+        - mountPath: "/data"
+          name: nfs-storage
+
+---
+
