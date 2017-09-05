@@ -1,6 +1,6 @@
 [REFERENCE OF THIS GUIDE](https://github.com/tensorflow/ecosystem)
 
-This guide setup  a kubernets cluster and run [this example](https://github.com/tensorflow/ecosystem/tree/master/kubernetes) distributly.
+This guide setup  a kubernets cluster and run [this example](https://github.com/tensorflow/ecosystem/tree/master/kubernetes) in a distribution fashio.
 
 ## Build docker image
 ```shell
