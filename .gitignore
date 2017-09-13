@@ -103,5 +103,5 @@ ENV/
 save_restore/imagenet
 *.ipynb_checkpoints
 tf-batchnorm-guide/MNIST_data
-
+*.idea
 
