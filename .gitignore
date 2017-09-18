@@ -99,7 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
-*__pycache__
+*__pycache__*
 save_restore/imagenet
 *.ipynb_checkpoints
 tf-batchnorm-guide/MNIST_data
