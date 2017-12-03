@@ -17,7 +17,7 @@ An informal term we often use for the layer just before the final output layer t
 
 
 ## Setup and Running
-[reference](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/#0)
+[Reference](https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/#0)
 
 ### Clone the git repo
 
@@ -34,6 +34,29 @@ get some example images
 ```
 curl http://download.tensorflow.org/example_images/flower_photos.tgz \
     | tar xz -C tf_files
+```
+
+After setup, the folder structure should look like this:
+
+```shell
+├── android
+│   ├── tflite
+│   └── tfmobile
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── scripts
+│   ├── count_ops.py
+│   ├── evaluate.py
+│   ├── graph_pb2tb.py
+│   ├── __init__.py
+│   ├── label_image.py
+│   ├── quantize_graph.py
+│   ├── retrain.py
+│   └── show_image.py
+└── tf_files
+    └── flower_photos
+
 ```
 
 ### Re-training the network
