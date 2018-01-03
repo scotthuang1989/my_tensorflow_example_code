@@ -2,6 +2,7 @@ import tensorflow as tf
 import glob
 import gc
 # from memory_profiler import profile
+import time
 
 
 @profile
@@ -31,10 +32,39 @@ def stack_images():
     gc.collect()
 
 
+@profile
+def stack_images_placeholder():
+  image_file_list = glob.glob("car_images/*.jpg")
+  sess = tf.Session()
+
+  image1_placeholder = tf.placeholder(tf.string, shape=[])
+  image2_placeholder = tf.placeholder(tf.string, shape=[])
+  # decode image
+  image1_decode = tf.image.decode_image(image1_placeholder, channels=3)
+  image2_decode = tf.image.decode_image(image2_placeholder, channels=3)
+  # stack image
+  image_stack = tf.stack([image1_decode, image2_decode])
+  for _ in range(300):
+    # read image
+    image1 = tf.gfile.FastGFile(image_file_list[0], 'rb').read()
+    image2 = tf.gfile.FastGFile(image_file_list[1], 'rb').read()
+
+    # run session
+    r_image_stack = sess.run(image_stack, feed_dict={image1_placeholder: image1, image2_placeholder: image2})
+    # mark function. so I can check the memory-usage of every loop.
+    function_mark()
+    print(r_image_stack.shape)
+    # force garbage collection, so all the un-reference variable will be freed.
+
 
 
 if __name__ == "__main__":
-  stack_images()
+  # start_t = time.time()
+  # stack_images()
+  # print("bad implementation: %f" % (time.time() - start_t))
+  start_t = time.time()
+  stack_images_placeholder()
+  print("good implementation: %f" % (time.time() - start_t))
 
 
 def simple_example():
